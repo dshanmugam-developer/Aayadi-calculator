@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="ta">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ayadi Porutham Calculator (ஆயாதி முழுமைக் கணிப்பான்)</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="card">
+        <h1>Ayadi Porutham Master Calculator (ஆயாதி கணிப்பான்)</h1>
+        <div class="subtitle">
+          Complete Silpa & Vastu Sastra Dimension Evaluation Engine
+        </div>
+
+        <!-- 1. Dimension & Conversion -->
+        <div class="section-title">
+          1. Dimension Input & Conversion (அளவு / பரிமாணம்)
+        </div>
+        <div class="grid-3">
+          <div>
+            <label for="unitType">Unit Input Type</label>
+            <select id="unitType" onchange="convertUnits()">
+              <option value="direct">Direct Ayadi Integer (ஆயாதி எண்)</option>
+              <option value="thalam">Thālam (தாளம் - 8.25")</option>
+              <option value="vitasthi" selected>
+                Vitasthi (விதஸ்தி - 16.5")
+              </option>
+              <option value="muzham">Thatchu Muzham (தச்சு முழம் - 33")</option>
+              <option value="feet">Feet & Inches (அடி / அங்குலம்)</option>
+            </select>
+          </div>
+          <div id="feetInputs" style="display: none">
+            <label>Feet & Inches (e.g., 50 ft 10.5 in)</label>
+            <div class="flex-inputs">
+              <input
+                type="number"
+                id="inputFeet"
+                placeholder="Feet"
+                value="50"
+                oninput="convertUnits()"
+              />
+              <input
+                type="number"
+                id="inputInches"
+                placeholder="Inches"
+                value="10.5"
+                step="any"
+                oninput="convertUnits()"
+              />
+            </div>
+          </div>
+          <div>
+            <label for="ayadiInput">Calculated Ayadi Number (N)</label>
+            <input type="number" id="ayadiInput" value="37" />
+          </div>
+        </div>
+
+        <!-- Auspicious Quick Pick Library -->
+        <div class="quick-pick-wrapper">
+          <label
+            >Quick Pick Pre-validated Auspicious Numbers (ஆயாதி எண்கள் அட்டவணை
+            23):</label
+          >
+          <div class="lookup-chips" id="lookupChips"></div>
+        </div>
+
+        <!-- 2. Karthā / Donor -->
+        <div class="section-title">
+          2. Karthā / Donor Star (கர்த்தா / உரிமையாளர் நட்சத்திரம்)
+        </div>
+        <div class="grid-2">
+          <div>
+            <label for="karthaStar">Owner Birth Star (ஜன்ம நட்சத்திரம்)</label>
+            <select id="karthaStar"></select>
+          </div>
+          <div>
+            <label for="karthaLetter">Or Select by Name First Letter</label>
+            <select
+              id="karthaLetter"
+              onchange="autoSelectStar('karthaLetter', 'karthaStar')"
+            ></select>
+          </div>
+        </div>
+
+        <!-- 3. Oor / Site Star -->
+        <div class="section-title">
+          3. Oor / Site Star (ஊர் / வாஸ்து நட்சத்திரம்)
+        </div>
+        <div class="grid-2">
+          <div>
+            <label for="oorLetter"
+              >Place Name First Letter (ஊர் முதலெழுத்து)</label
+            >
+            <select
+              id="oorLetter"
+              onchange="autoSelectStar('oorLetter', 'oorStar')"
+            ></select>
+          </div>
+          <div>
+            <label for="oorStar">Resolved Site Star (வாஸ்து நட்சத்திரம்)</label>
+            <select id="oorStar"></select>
+          </div>
+        </div>
+
+        <!-- 4. Deity / Linga Star -->
+        <div class="section-title">
+          4. Deity / Linga Star (கடவுள் / சுவாமி / லிங்க நட்சத்திரம்)
+        </div>
+        <div class="grid-3">
+          <div>
+            <label for="deitySelect">Deity Directory (சுவாமி)</label>
+            <select id="deitySelect" onchange="handleDeitySelect()"></select>
+          </div>
+          <div>
+            <label for="lingaSelect">Linga Classification (லிங்க வகை)</label>
+            <select id="lingaSelect" onchange="handleLingaSelect()">
+              <option value="0">-- Select Linga --</option>
+              <option value="6">சுயம்பு (திருவாதிரை)</option>
+              <option value="8">தைவிகம் (பூசம்)</option>
+              <option value="15">ஆருஷம் (சுவாதி)</option>
+              <option value="12">ஆசுரம் (உத்திரம்)</option>
+              <option value="17">மானுஷம் (அனுஷம்)</option>
+            </select>
+          </div>
+          <div>
+            <label for="bimbamStar"
+              >Resolved Deity Star (பிம்ப நட்சத்திரம்)</label
+            >
+            <select id="bimbamStar"></select>
+          </div>
+        </div>
+
+        <button class="btn-primary" onclick="calculateAll()">
+          Calculate Ayadi Porutham (ஆயாதி கணி)
+        </button>
+      </div>
+
+      <!-- Results Section -->
+      <div class="card" id="resultsSection" style="display: none">
+        <h2>Evaluation & Verification Results</h2>
+        <div id="verdictOutput" class="verdict-box"></div>
+        <div id="taraInfoBox" class="info-box"></div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Shadvarga (பொருத்தம்)</th>
+              <th>Formula (சூத்திரம்)</th>
+              <th>Remainder (மீதம்)</th>
+              <th>Attribute & Meaning</th>
+              <th>Verdict</th>
+            </tr>
+          </thead>
+          <tbody id="resultsTableBody"></tbody>
+        </table>
+
+        <div
+          id="financeInfoBox"
+          class="info-box"
+          style="margin-top: 16px"
+        ></div>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
