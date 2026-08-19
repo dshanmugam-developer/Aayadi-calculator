@@ -1,0 +1,24 @@
+{
+  "name": "aayadi-calculator",
+  "version": "1.0.0",
+  "description": "Ayadi Porutham Master Calculator - Complete Silpa & Vastu Sastra Dimension Evaluation Engine",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dshanmugam-developer/Aayadi-calculator.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dshanmugam-developer/Aayadi-calculator/issues"
+  },
+  "homepage": "https://github.com/dshanmugam-developer/Aayadi-calculator#readme",
+  "dependencies": {
+    "@vercel/speed-insights": "^2.0.0"
+  }
+}
